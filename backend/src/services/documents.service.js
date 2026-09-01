@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-const path = require('path');
 const documentsRepository = require('../repositories/documents.repository');
 
 function registerUpload({ file, owner }) {
@@ -27,7 +26,7 @@ function getDownloadInfo(id) {
   }
 
   return {
-    filePath: path.join(documentsRepository.STORAGE_DIR, document.storedName),
+    filePath: documentsRepository.resolveFilePath(document),
     originalName: document.originalName,
   };
 }
