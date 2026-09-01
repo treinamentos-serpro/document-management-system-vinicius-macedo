@@ -29,6 +29,7 @@ function download(req, res) {
 
   return res.download(downloadInfo.filePath, downloadInfo.originalName, (err) => {
     if (err && !res.headersSent) {
+      console.error('Erro ao baixar documento:', err);
       res.status(404).json({ error: 'Arquivo não encontrado no armazenamento.' });
     }
   });

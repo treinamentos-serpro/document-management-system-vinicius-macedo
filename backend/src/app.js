@@ -25,6 +25,16 @@ app.get('/health', (req, res) => {
 
 app.use(documentsRoutes);
 
+// Tratamento de erros na fronteira HTTP (ex.: limite de tamanho do multer).
+app.use((err, req, res, next) => {
+  if (err && err.code === 'LIMIT_FILE_SIZE') {
+    return res.status(400).json({ error: 'Arquivo excede o tamanho máximo permitido.' });
+  }
+
+  console.error(err);
+  return res.status(500).json({ error: 'Erro interno no servidor.' });
+});
+
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`DMS backend ouvindo na porta ${PORT}`);
